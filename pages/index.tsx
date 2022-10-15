@@ -1,9 +1,38 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { getFlight } from '../app/api/services/getFlight';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
+  const [data, setData] = useState([]);
+
+  const origin = 'LOND';
+  const countryID = 'US';
+  const anytime = true;
+  const oneWay = false;
+  const currency = 'USD';
+  const countryCode = 'US';
+  const market = 'en-US';
+
+  const fetchFlights = async () => {
+    const data = await getFlight(
+      origin,
+      countryID,
+      anytime,
+      oneWay,
+      currency,
+      countryCode,
+      market
+    );
+    setData(data);
+  };
+  console.log(data);
+  useEffect(() => {
+    fetchFlights();
+  }, [fetchFlights]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +41,13 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className={styles.main}>Component Here</main>
+      <main className={styles.main}>
+        {data?.map((elem) => (
+          <div key={elem.title}>
+            <h2>{elem.title}</h2>
+          </div>
+        ))}
+      </main>
 
       <footer className={styles.footer}>
         <a

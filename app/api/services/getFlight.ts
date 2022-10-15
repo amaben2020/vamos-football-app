@@ -1,7 +1,7 @@
 import { api, ENDPOINTS } from "./base"
 
 export const getFlight = async (origin = 'LOND', countryID = 'US', anytime = true, oneWay = false, currency = 'USD', countryCode = 'US', market = 'en-US') => {
-  return api.get(ENDPOINTS.search,
+  return await api.get(ENDPOINTS.search,
     {
       params: {
         origin: origin,
